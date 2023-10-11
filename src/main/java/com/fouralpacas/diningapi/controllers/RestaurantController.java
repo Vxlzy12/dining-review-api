@@ -17,36 +17,19 @@ public class RestaurantController {
         this.restaurantRepository = restaurantRepository;
     }
 
-    //GET Mappings: Get by ID and get by zipCode (meeting some conditions)
-    @GetMapping("/{id}")
-    public Restaurant getRestaurants(@PathVariable Long id) {
+    @GetMapping
+    public Restaurant getById(@RequestParam Long id) {
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.findById(id);
-        if (restaurantOptional.isPresent()) {
-            Restaurant restaurant = restaurantOptional.get();
-            return restaurant;
-        } else {
+        if(!restaurantOptional.isPresent()) {
             return null;
         }
+        return restaurantOptional.get();
     }
 
-    //POST Mapping: Validate if restaurant already exists and then add the new restaurant
-    @PostMapping("/")
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurantToAdd) {
-        Iterable<Restaurant> restaurantList = this.restaurantRepository.findAll();
-        Long tempId = restaurantToAdd.getId();
-        String tempName = restaurantToAdd.getName();
-        for (Restaurant restaurant : restaurantList) {
-            if (restaurant.getId() == tempId || restaurant.getName() == tempName) {
-                return null;
-            }
-        }
+    @PostMapping
+    public Restaurant addRestaurant(@RequestBody Restaurant restaurantToAdd) {
         this.restaurantRepository.save(restaurantToAdd);
         return restaurantToAdd;
     }
-
-
-
-
-
 }
 
