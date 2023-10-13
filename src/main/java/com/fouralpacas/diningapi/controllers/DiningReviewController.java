@@ -6,7 +6,9 @@ import com.fouralpacas.diningapi.model.ReviewStatus;
 import com.fouralpacas.diningapi.repositories.RestaurantRepository;
 import com.fouralpacas.diningapi.repositories.ReviewRepository;
 import com.fouralpacas.diningapi.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,16 +35,17 @@ public class DiningReviewController {
     public List<Review> getByRestaurant(@PathVariable Long id) {
         Optional<Restaurant> optionalRestaurant = this.restaurantRepository.findById(id);
         if(!optionalRestaurant.isPresent()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return this.reviewRepository.findByRestaurantIdAndReviewStatus(id, ReviewStatus.ACCEPTED);
     }
 
     //Add new review and set its status to PENDING
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Review postReview(@RequestBody Review review) {
         if(!userRepository.existsByDisplayName(review.getDisplayName())) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         review.setReviewStatus(ReviewStatus.PENDING);
         this.reviewRepository.save(review);
@@ -60,7 +63,7 @@ public class DiningReviewController {
     public Review setReviewStatus(@PathVariable Long id, @RequestParam Boolean accepted) {
         Optional<Review> optionalReview = this.reviewRepository.findById(id);
         if (!optionalReview.isPresent()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         Review review = optionalReview.get();
         if (accepted) {

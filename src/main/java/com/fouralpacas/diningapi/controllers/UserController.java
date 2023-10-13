@@ -2,7 +2,9 @@ package com.fouralpacas.diningapi.controllers;
 
 import com.fouralpacas.diningapi.model.User;
 import com.fouralpacas.diningapi.repositories.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class UserController {
     }
 
     //Add new user
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User addUser(@RequestBody User user) {
         //Alternate way to check if a display name exists, and return error if user already exists
@@ -43,7 +46,7 @@ public class UserController {
         //Check if user exists (display name can not be changed)
         Optional<User> optionalOldUser = this.userRepository.findByDisplayName(displayName);
         if(!optionalOldUser.isPresent()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         User oldUser = optionalOldUser.get();
         copyUserData(oldUser, newUser);
