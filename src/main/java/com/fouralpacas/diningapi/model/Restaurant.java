@@ -1,26 +1,22 @@
 package com.fouralpacas.diningapi.model;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 @Getter
 @Setter
 @Entity
-@Table(name="RESTAURANTS")
+@Table(name = "restaurant")
 public class Restaurant {
 
     @Setter(AccessLevel.PUBLIC)
 
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
+    private Integer zipCode;
     private Integer overallScore;
     private Integer peanutScore;
     private Integer eggScore;

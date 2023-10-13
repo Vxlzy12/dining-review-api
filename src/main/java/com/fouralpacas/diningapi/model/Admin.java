@@ -12,8 +12,8 @@ import jakarta.persistence.Entity;
 @Entity
 public class Admin {
 
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
     public Boolean reviewPending;
     public Boolean reviewAccepted;

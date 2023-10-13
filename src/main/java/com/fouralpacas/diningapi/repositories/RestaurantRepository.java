@@ -11,5 +11,12 @@ import java.util.Optional;
 public interface RestaurantRepository extends CrudRepository<Restaurant, Long> {
 
     Optional<Restaurant> findById(Long id);
+    List<Restaurant> findByZipCodeOrderByPeanutScoreDesc(Integer zipCode);
+    List<Restaurant> findByZipCodeOrderByEggScoreDesc(Integer zipCode);
+    List<Restaurant> findByZipCodeOrderByDairyScoreDesc(Integer zipCode);
+    List<Restaurant> findByZipCode(Integer zipCode);
+    Boolean existsByName(String name);
+    Boolean existsByZipCode(Integer zipCode);
+
 
 }

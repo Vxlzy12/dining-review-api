@@ -1,30 +1,25 @@
 package com.fouralpacas.diningapi.model;
 
-import com.fouralpacas.diningapi.model.Admin;
-
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import java.util.Optional;
 
 @Getter
 @Setter
 @Entity
 @Table(name="DININGREVIEWS")
-public class DiningReview {
+public class Review {
 
     @Setter(AccessLevel.PUBLIC)
 
-    @GeneratedValue
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String username;
+    public String displayName;
+
+    public Long restaurantId;
 
     //optional values
     public Integer peanutScore;
@@ -32,7 +27,7 @@ public class DiningReview {
     public Integer dairyScore;
     public String commentary;
 
-    private DiningReviewStatus reviewStatus;
+    private ReviewStatus reviewStatus;
 
 
 }

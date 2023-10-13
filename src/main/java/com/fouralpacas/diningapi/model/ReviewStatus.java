@@ -1,6 +1,6 @@
 package com.fouralpacas.diningapi.model;
 
-public enum DiningReviewStatus {
+public enum ReviewStatus {
     PENDING,
 
     REJECTED,
